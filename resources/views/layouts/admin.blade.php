@@ -1,63 +1,87 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin') - TecnoOutlet</title>
-    
+
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    
+
     <style>
         .sidebar {
             min-height: 100vh;
             background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
         }
+
         .sidebar .nav-link {
-            color: rgba(255,255,255,0.8);
+            color: rgba(255, 255, 255, 0.8);
             padding: 0.75rem 1rem;
             border-radius: 0.5rem;
             margin: 0.25rem 0;
         }
+
+        .pagination {
+            margin-bottom: 0;
+        }
+
         .sidebar .nav-link:hover,
         .sidebar .nav-link.active {
             color: #fff;
-            background-color: rgba(255,255,255,0.1);
+            background-color: rgba(255, 255, 255, 0.1);
         }
+
         .sidebar .nav-link i {
             margin-right: 0.5rem;
         }
+
         .content-wrapper {
             min-height: 100vh;
             background-color: #f8f9fa;
         }
+
         .card {
             border: none;
-            box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
         }
+
         .table th {
             font-weight: 600;
             background-color: #f8f9fa;
         }
+
         .btn-action {
             padding: 0.25rem 0.5rem;
             font-size: 0.875rem;
         }
+
         .product-image {
             width: 50px;
             height: 50px;
             object-fit: cover;
             border-radius: 0.375rem;
         }
-        .badge-stock-ok { background-color: #198754; }
-        .badge-stock-low { background-color: #ffc107; color: #000; }
-        .badge-stock-out { background-color: #dc3545; }
+
+        .badge-stock-ok {
+            background-color: #198754;
+        }
+
+        .badge-stock-low {
+            background-color: #ffc107;
+            color: #000;
+        }
+
+        .badge-stock-out {
+            background-color: #dc3545;
+        }
     </style>
     @stack('styles')
 </head>
+
 <body>
     <div class="container-fluid">
         <div class="row">
@@ -69,7 +93,7 @@
                         <i class="bi bi-pc-display fs-4 me-2"></i>
                         <span class="fs-5 fw-semibold">TecnoOutlet</span>
                     </a>
-                    
+
                     <!-- Navegación -->
                     <ul class="nav flex-column px-2">
                         <li class="nav-item">
@@ -100,9 +124,9 @@
                             </a>
                         </li>
                     </ul>
-                    
+
                     <hr class="text-white-50 mx-3 my-4">
-                    
+
                     <!-- Usuario y logout -->
                     <ul class="nav flex-column px-2">
                         <li class="nav-item">
@@ -119,7 +143,7 @@
                             </form>
                         </li>
                     </ul>
-                    
+
                     <!-- Info usuario -->
                     <div class="px-3 mt-4">
                         <div class="text-white-50 small">
@@ -139,30 +163,30 @@
 
                 <!-- Alertas de sesión -->
                 @if(session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
                 @endif
 
                 @if(session('error'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <i class="bi bi-exclamation-triangle me-2"></i>{{ session('error') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle me-2"></i>{{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
                 @endif
 
                 @if($errors->any())
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <i class="bi bi-exclamation-triangle me-2"></i>
-                        <strong>Por favor corrige los siguientes errores:</strong>
-                        <ul class="mb-0 mt-2">
-                            @foreach($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <strong>Por favor corrige los siguientes errores:</strong>
+                    <ul class="mb-0 mt-2">
+                        @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
                 @endif
 
                 <!-- Contenido de la página -->
@@ -175,4 +199,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     @stack('scripts')
 </body>
+
 </html>
