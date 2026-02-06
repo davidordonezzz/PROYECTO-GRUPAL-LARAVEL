@@ -13,7 +13,7 @@
     <div class="col-lg-8">
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Nuevo Producto</h5>
+                <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Nuevo producto</h5>
             </div>
             <div class="card-body">
                 <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
