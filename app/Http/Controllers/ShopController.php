@@ -6,6 +6,8 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class ShopController extends Controller
@@ -45,9 +47,9 @@ class ShopController extends Controller
             ->where('stock', '>', 0)
             ->where(function ($q) use ($product) {
                 $q->where('brand_id', $product->brand_id)
-                  ->orWhereHas('categories', function ($cq) use ($product) {
-                      $cq->whereIn('categories.id', $product->categories->pluck('id'));
-                  });
+                    ->orWhereHas('categories', function ($cq) use ($product) {
+                        $cq->whereIn('categories.id', $product->categories->pluck('id'));
+                    });
             })
             ->limit(4)
             ->get();
@@ -60,7 +62,18 @@ class ShopController extends Controller
      */
     public function buy(Request $request, Product $product)
     {
-        abort_if(! $product->active || $product->stock <= 0, 404);
+        // Validar que el usuario esté autenticado
+        if (!Auth::check()) {
+            return redirect()->route('login')
+                ->with('error', 'Debes iniciar sesión para comprar.');
+        }
+
+        abort_if(!$product->active || $product->stock <= 0, 404);
+
+        // Validar cantidad
+        $request->validate([
+            'quantity' => 'required|integer|min:1|max:' . $product->stock,
+        ]);
 
         $quantity = $request->input('quantity', 1);
 
@@ -70,7 +83,7 @@ class ShopController extends Controller
 
         $amount = $product->price * $quantity;
 
-        // Guardar en sesión para que PaymentController lo use
+        // Guardar en sesión para que PayPalController lo use
         session([
             'purchase' => [
                 'product_id' => $product->id,
@@ -78,11 +91,11 @@ class ShopController extends Controller
                 'quantity' => $quantity,
                 'unit_price' => $product->price,
                 'amount' => $amount,
+                'user_id' => Auth::id(),
             ],
         ]);
 
-        // Redirigir a crear el pago
-        return redirect()->route('payment.create')
-            ->withInput(['amount' => $amount]);
+        // Redirigir a crear el pago de PayPal
+        return redirect()->route('paypal.create');
     }
 }

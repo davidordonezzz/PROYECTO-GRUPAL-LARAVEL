@@ -12,7 +12,15 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'Administrador',
             'email' => 'administrador@example.com',
-            'password' => 'password'
+            'password' => 'password',
+            'is_admin' => true
+        ]);
+
+        User::create([
+            'name' => 'hug0gil',
+            'email' => 'hugogilb2005@gmail.com',
+            'password' => 'password',
+            'is_admin' => false
         ]);
         $this->call([
             BrandSeeder::class,

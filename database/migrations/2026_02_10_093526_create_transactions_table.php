@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('currency', 3)->default('EUR');
             $table->string('status'); // COMPLETED, PENDING, FAILED
             $table->string('payment_method')->default('paypal');
-            $table->json('paypal_response')->nullable(); // Response completa de PayPal
+            $table->json('paypal_response')->nullable();
             $table->timestamp('paid_at')->nullable();
             $table->timestamps();
         });
